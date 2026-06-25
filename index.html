@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>wabouz076 — Engineering Portfolio</title>
+  <style>
+    :root {
+      --bg:        #07090f;
+      --surface:   #0e1117;
+      --card:      #13171f;
+      --border:    #1e2530;
+      --accent:    #2e7de9;
+      --accent2:   #57a6ff;
+      --text:      #e8edf5;
+      --muted:     #8899aa;
+      --tag-bg:    #161d28;
+      --tag-txt:   #7ab3ef;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    a { color: var(--accent2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(7,9,15,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 56px;
+    }
+    .nav-brand { font-size: 0.9rem; color: var(--muted); letter-spacing: 0.04em; }
+    .nav-brand span { color: var(--accent2); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); font-size: 0.88rem; letter-spacing: 0.03em; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 92vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 5rem 2rem 4rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .hero-eyebrow {
+      font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.4rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .hero-eyebrow::before { content:''; display:block; width:28px; height:1px; background:var(--accent); }
+    h1 {
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      font-weight: 700; line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.2rem;
+    }
+    h1 em { font-style: normal; color: var(--accent2); }
+    .hero-sub {
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 540px; margin-bottom: 2.4rem; line-height: 1.75;
+    }
+    .hero-tags {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 2.8rem;
+    }
+    .hero-tags span {
+      background: var(--tag-bg); color: var(--tag-txt);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.75rem; border-radius: 4px;
+      font-size: 0.8rem; letter-spacing: 0.02em;
+    }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 4rem; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.65rem 1.4rem; border-radius: 6px;
+      font-size: 0.88rem; font-weight: 500;
+      transition: all .2s; cursor: pointer; text-decoration: none;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent2); text-decoration: none; }
+    .btn-ghost { border: 1px solid var(--border); color: var(--muted); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--text); text-decoration: none; }
+
+    .stats-row {
+      display: flex; flex-wrap: wrap; gap: 2.5rem;
+      border-top: 1px solid var(--border); padding-top: 2.5rem;
+    }
+    .stat-item {}
+    .stat-num { font-size: 2rem; font-weight: 700; color: var(--text); line-height: 1; }
+    .stat-num span { color: var(--accent2); }
+    .stat-label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; margin-top: 0.25rem; }
+
+    /* ── SECTION WRAPPER ── */
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-header { margin-bottom: 3rem; }
+    .section-eyebrow {
+      font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.7rem;
+    }
+    h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; letter-spacing: -0.015em; }
+    .section-desc { color: var(--muted); margin-top: 0.5rem; max-width: 480px; font-size: 0.93rem; }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--surface); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.6rem;
+      display: flex; flex-direction: column;
+      transition: border-color .2s, transform .2s;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .card-icon { font-size: 1.6rem; margin-bottom: 1rem; }
+    .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .card p { color: var(--muted); font-size: 0.875rem; line-height: 1.7; flex: 1; margin-bottom: 1.1rem; }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+    .card-tags span {
+      background: var(--tag-bg); color: var(--tag-txt);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.55rem; border-radius: 3px; font-size: 0.73rem;
+    }
+    .card-link {
+      font-size: 0.8rem; color: var(--accent2);
+      display: inline-flex; align-items: center; gap: 0.3rem;
+    }
+    .card-link:hover { text-decoration: underline; }
+    .card-stat {
+      font-size: 0.75rem; color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 0.9rem; margin-top: 0.4rem;
+    }
+    .card-stat strong { color: var(--accent2); }
+
+    /* ── EXPERIENCE ── */
+    .exp-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .exp-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 1.4rem 1.6rem;
+    }
+    .exp-card h3 { font-size: 1rem; font-weight: 600; }
+    .exp-meta { font-size: 0.8rem; color: var(--accent2); margin: 0.25rem 0 0.6rem; }
+    .exp-card p { color: var(--muted); font-size: 0.875rem; }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--surface); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.4rem;
+    }
+    .skill-card h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 1rem; }
+    .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+    .skill-list li { font-size: 0.88rem; display: flex; align-items: center; gap: 0.5rem; }
+    .skill-list li::before { content:'▸'; color: var(--accent); font-size: 0.65rem; }
+
+    /* ── EDUCATION ── */
+    .edu-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 2rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .edu-main h3 { font-size: 1.1rem; font-weight: 600; }
+    .edu-main .inst { color: var(--accent2); font-size: 0.9rem; margin: 0.3rem 0 0.5rem; }
+    .edu-main p { color: var(--muted); font-size: 0.85rem; }
+    .edu-modules { }
+    .edu-modules h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.8rem; }
+    .module-tag {
+      display: inline-block;
+      background: var(--tag-bg); color: var(--tag-txt);
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.6rem; border-radius: 3px;
+      font-size: 0.75rem; margin: 0.2rem 0.2rem 0 0;
+    }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    .contact-inner { max-width: 520px; margin: 0 auto; }
+    #contact h2 { margin-bottom: 0.75rem; }
+    #contact p { color: var(--muted); margin-bottom: 2rem; }
+    .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center; padding: 1.5rem;
+      color: var(--muted); font-size: 0.78rem;
+    }
+
+    @media (max-width: 680px) {
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 1.2rem; }
+      .hero { padding: 4rem 1rem 3rem; }
+      section { padding: 3.5rem 1rem; }
+      .edu-card { grid-template-columns: 1fr; }
+      .stats-row { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand"><span>wabouz076</span>@github</div>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">MEng Mechanical Engineering · University of Sussex</div>
+  <h1>Engineering that<br>holds up <em>under load.</em></h1>
+  <p class="hero-sub">
+    From ANSYS Fluent CFD to full SolidWorks assemblies — I work on problems
+    where the numbers have to be right. Structural analysis, numerical simulation,
+    fluid dynamics, and hands-on manufacturing.
+  </p>
+  <div class="hero-tags">
+    <span>ANSYS Fluent</span>
+    <span>ANSYS Mechanical</span>
+    <span>MATLAB</span>
+    <span>SolidWorks</span>
+    <span>FEA</span>
+    <span>CFD</span>
+    <span>LaTeX</span>
+    <span>CNC Machining</span>
+  </div>
+  <div class="hero-ctas">
+    <a href="https://github.com/wabouz076" class="btn btn-primary">↗ GitHub Profile</a>
+    <a href="#projects" class="btn btn-ghost">View Projects</a>
+  </div>
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num">7</div>
+      <div class="stat-label">Engineering Projects</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span>10</span>K+</div>
+      <div class="stat-label">Truss Iterations Computed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span>4</span>%</div>
+      <div class="stat-label">CFD Reattachment Error vs DNS</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">293259</div>
+      <div class="stat-label">Candidate Number</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Work</div>
+      <h2>Projects</h2>
+      <p class="section-desc">Simulation, analysis, and fabrication — from matrix solvers to machined parts.</p>
+    </div>
+    <div class="projects-grid">
+
+      <div class="card">
+        <div class="card-icon">🌊</div>
+        <h3>CFD — Turbulent Flow Over a Backward-Facing Step</h3>
+        <p>Steady-state RANS simulation in ANSYS Fluent at Re = 5100, Er = 1.2, using the SST k-ω turbulence model. Validated against DNS data (Le et al., 1997). Grid independence study across five meshes; reattachment length Xr = 6.53h vs DNS 6.28h (4% error). TKE overprediction of 230% at x/h = 6 quantified and explained. 9th-order polynomial curve fit applied to velocity profiles (R² = 1.000).</p>
+        <div class="card-tags">
+          <span>ANSYS Fluent</span><span>SST k-ω RANS</span><span>CFD</span><span>Turbulence</span><span>Python Curve Fit</span>
+        </div>
+        <div class="card-stat">Xr = <strong>6.53h</strong> · DNS benchmark <strong>6.28h</strong> · <strong>4%</strong> discrepancy</div>
+        <a href="https://github.com/wabouz076/P3-CFD-Backward-Facing-Step" class="card-link">↗ View Repository</a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🔩</div>
+        <h3>FEA — Planar Truss & Belleville Spring Washer</h3>
+        <p>Two-part FEA study. Part 1: 8-member planar truss solved via MATLAB LU decomposition (8×8 system), verified in ANSYS Mechanical — max nodal displacement error 0.006%. Part 2: Belleville spring constant evaluated analytically via central finite difference (k = 12,956 N/mm) and by 2D axisymmetric vs 3D FEA. Critical finding: 3D model overestimated stiffness by 58.7% due to over-constrained boundary conditions.</p>
+        <div class="card-tags">
+          <span>ANSYS Mechanical</span><span>MATLAB</span><span>FEA</span><span>LU Decomposition</span><span>FD</span>
+        </div>
+        <div class="card-stat">Truss error: <strong>0.006%</strong> · Spring k analytical: <strong>12,956 N/mm</strong> · 2D FEA error: <strong>2.42%</strong></div>
+        <a href="https://github.com/wabouz076/P4-FEA-Truss-Belleville-Spring" class="card-link">↗ View Repository</a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📐</div>
+        <h3>MATLAB Numerical Modelling Portfolio</h3>
+        <p>Five-problem portfolio on a 7-node, 11-member Warren truss (candidate-specific via synthetic_truss_293259.mat). Covers: static matrix solver (14×14 system), 10,000-combination parametric FoS sweep with interactive sliders, strain gauge calibration with secant root-finding, strain energy via Castigliano's theorem + trapezoidal integration, and SDOF dynamic response via ODE45 with resonance detection.</p>
+        <div class="card-tags">
+          <span>MATLAB</span><span>ODE45</span><span>LU Decomposition</span><span>Secant Method</span><span>Castigliano</span>
+        </div>
+        <div class="card-stat"><strong>5</strong> problems · <strong>10,000</strong> parametric iterations · <strong>6</strong> MATLAB scripts</div>
+        <a href="https://github.com/wabouz076/P5-MATLAB-Numerical-Modelling" class="card-link">↗ View Repository</a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🚲</div>
+        <h3>SolidWorks Bicycle — Custom Suspension Design</h3>
+        <p>Full bicycle assembly in SolidWorks with a custom-engineered suspension system. Covered suspension geometry, kinematics, and structural integrity analysis. Detailed 116-page technical design report produced covering design justification, kinematic analysis, and component sizing.</p>
+        <div class="card-tags">
+          <span>SolidWorks</span><span>Kinematics</span><span>Suspension Design</span><span>Structural Analysis</span>
+        </div>
+        <a href="https://github.com/wabouz076/P2-SolidWorks-Bicycle-Suspension" class="card-link">↗ View Repository</a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">✈️</div>
+        <h3>SolidWorks Commercial Aircraft — Full Assembly</h3>
+        <p>Fully articulated commercial passenger aircraft in SolidWorks. Jet engine sub-assemblies (fan, nacelle, pylon) modelled and mounted under wing. Retractable landing gear mechanism with realistic retraction geometry. SolidWorks Motion used to animate gear deployment sequence.</p>
+        <div class="card-tags">
+          <span>SolidWorks</span><span>Assembly Design</span><span>SolidWorks Motion</span><span>Mechanism Design</span>
+        </div>
+        <a href="https://github.com/wabouz076/P7-SolidWorks-Commercial-Aircraft" class="card-link">↗ View Repository</a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🔨</div>
+        <h3>Machined Hammer — Workshop Manufacture</h3>
+        <p>Design and manufacture of a functional hammer using heavy-duty workshop machining. Covers material selection for head and handle (hardness, toughness, machinability), process planning for milling and drilling operations, and hands-on observation of how microstructure affects chip formation and surface finish.</p>
+        <div class="card-tags">
+          <span>Milling</span><span>Drilling</span><span>Material Selection</span><span>Process Planning</span>
+        </div>
+        <a href="https://github.com/wabouz076/P6-Machined-Hammer" class="card-link">↗ View Repository</a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🏗️</div>
+        <h3>Structural Bridge — Wood Construction (Group)</h3>
+        <p>Group design-and-build project to construct a wooden bridge maximising load-to-weight ratio within set material and geometry constraints. Applied structural analysis, workshop fabrication, and incremental load testing to failure.</p>
+        <div class="card-tags">
+          <span>Structural Analysis</span><span>Fabrication</span><span>Load Testing</span><span>Group Project</span>
+        </div>
+        <a href="https://github.com/wabouz076/P1-Bridge-Wood-Group" class="card-link">↗ View Repository</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Beyond Coursework</div>
+      <h2>Experience</h2>
+      <p class="section-desc">Research, industry applications, and extracurricular engineering.</p>
+    </div>
+    <div class="exp-list">
+
+      <div class="exp-card">
+        <h3>Junior Research Associate — Cryogenic Spray & Hydrogen Refuelling</h3>
+        <div class="exp-meta">University of Sussex · Prof. Cyril Crua · Ongoing</div>
+        <p>Research focused on cryogenic spray performance and boil-off gas reduction in liquid hydrogen refuelling systems. Scope covers PIV/MATLAB analysis of high-speed imagery and interchangeable nozzle testing, contributing to clean energy infrastructure research.</p>
+      </div>
+
+      <div class="exp-card">
+        <h3>Formula Student</h3>
+        <div class="exp-meta">University of Sussex Racing</div>
+        <p>Hands-on involvement in competitive Formula Student vehicle design and development. Applied structural and mechanical engineering principles to real race car components under tight constraints.</p>
+      </div>
+
+      <div class="exp-card">
+        <h3>Fire-Extinguishing Drone — Project</h3>
+        <div class="exp-meta">Engineering Design Project</div>
+        <p>Designed and developed a drone system capable of targeting and suppressing fires autonomously. Integrated mechanical design, systems thinking, and practical fabrication.</p>
+      </div>
+
+      <div class="exp-card">
+        <h3>Placement Application — Quality NPI Engineer</h3>
+        <div class="exp-meta">Cummins · Daventry</div>
+        <p>Applied for and progressed through a Quality NPI placement role at Cummins' Daventry facility, gaining exposure to industry recruitment processes, engineering competency frameworks, and professional self-presentation.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Toolkit</div>
+      <h2>Skills</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3>Simulation & Analysis</h3>
+        <ul class="skill-list">
+          <li>ANSYS Fluent (CFD, RANS)</li>
+          <li>ANSYS Mechanical (FEA)</li>
+          <li>SST k-ω turbulence modelling</li>
+          <li>Grid independence studies</li>
+          <li>Finite element method</li>
+          <li>Direct stiffness method</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3>Programming</h3>
+        <ul class="skill-list">
+          <li>MATLAB (scripting & functions)</li>
+          <li>ODE solvers (ODE45)</li>
+          <li>Matrix methods & linear algebra</li>
+          <li>Numerical root-finding</li>
+          <li>Regression & curve fitting</li>
+          <li>Python (scripting)</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3>CAD & Manufacturing</h3>
+        <ul class="skill-list">
+          <li>SolidWorks (parts & assemblies)</li>
+          <li>SolidWorks Motion</li>
+          <li>CNC milling & drilling</li>
+          <li>Workshop manufacturing</li>
+          <li>Material selection & process planning</li>
+          <li>Engineering drawing & GD&T</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3>Technical Writing</h3>
+        <ul class="skill-list">
+          <li>LaTeX / Overleaf</li>
+          <li>Technical report writing</li>
+          <li>Literature review & referencing</li>
+          <li>Git & GitHub</li>
+          <li>Microsoft Office Suite</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Background</div>
+      <h2>Education</h2>
+    </div>
+    <div class="edu-card">
+      <div class="edu-main">
+        <h3>MEng Mechanical Engineering</h3>
+        <div class="inst">University of Sussex</div>
+        <p style="color:var(--muted); font-size:0.87rem;">
+          Candidate No. 293259 · Brighton, England<br>
+          Year 2 — Integrated Masters programme
+        </p>
+      </div>
+      <div class="edu-modules">
+        <h4>Modules</h4>
+        <span class="module-tag">H7137 Numerical Modelling & Simulations</span>
+        <span class="module-tag">Structural Analysis</span>
+        <span class="module-tag">Control Systems</span>
+        <span class="module-tag">Fluid Mechanics</span>
+        <span class="module-tag">FEA/CFD</span>
+        <span class="module-tag">CAD & Manufacturing</span>
+        <span class="module-tag">Engineering Mathematics</span>
+        <span class="module-tag">Professional & Managerial Skills</span>
+        <span class="module-tag">MATLAB Onramp Certified</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-inner">
+      <div class="section-eyebrow" style="text-align:center; margin-bottom:0.7rem;">Let's connect.</div>
+      <h2>Open to opportunities</h2>
+      <p>MEng student at Sussex. Interested in placements, internships, and research roles in simulation, structural analysis, or mechanical design.</p>
+      <div class="contact-links">
+        <a href="https://github.com/wabouz076" class="btn btn-primary">↗ GitHub</a>
+        <a href="mailto:" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  wabouz076 · University of Sussex · Built with ❤️ by Claude
+</footer>
+
+</body>
+</html>
