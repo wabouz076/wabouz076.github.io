@@ -3,150 +3,150 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Walid AbouZikry — Engineering Portfolio</title>
+  <title>Walid AbouZikry · Engineering Portfolio</title>
   <style>
     :root {
-      --bg:       #07090f;
-      --surface:  #0e1117;
-      --card:     #13171f;
-      --border:   #1e2530;
-      --accent:   #2e7de9;
-      --accent2:  #57a6ff;
-      --text:     #e8edf5;
-      --muted:    #8899aa;
-      --tag-bg:   #161d28;
-      --tag-txt:  #7ab3ef;
-      --green:    #3dd68c;
-      --amber:    #e5a827;
+      bg:       #07090f;
+      surface:  #0e1117;
+      card:     #13171f;
+      border:   #1e2530;
+      accent:   #2e7de9;
+      accent2:  #57a6ff;
+      text:     #e8edf5;
+      muted:    #8899aa;
+      tag-bg:   #161d28;
+      tag-txt:  #7ab3ef;
+      green:    #3dd68c;
+      amber:    #e5a827;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 15px; line-height: 1.65; }
-    a { color: var(--accent2); text-decoration: none; }
+    body { background: var(bg); color: var(text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 15px; line-height: 1.65; }
+    a { color: var(accent2); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
     /* NAV */
     nav {
       position: sticky; top: 0; z-index: 100;
       background: rgba(7,9,15,0.92); backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(border);
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 2.5rem; height: 58px;
     }
     .nav-brand { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; }
-    .nav-brand span { color: var(--accent2); }
+    .nav-brand span { color: var(accent2); }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a { color: var(--muted); font-size: 0.85rem; transition: color .2s; }
-    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .nav-links a { color: var(muted); font-size: 0.85rem; transition: color .2s; }
+    .nav-links a:hover { color: var(text); text-decoration: none; }
 
     /* HERO */
     .hero { min-height: 94vh; display: flex; flex-direction: column; justify-content: center; padding: 6rem 2.5rem 4rem; max-width: 1140px; margin: 0 auto; }
-    .hero-eyebrow { font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.7rem; }
-    .hero-eyebrow::before { content:''; display:block; width:32px; height:1px; background:var(--accent); }
+    .hero-eyebrow { font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.7rem; }
+    .hero-eyebrow::before { content:''; display:block; width:32px; height:1px; background:var(accent); }
     h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); font-weight: 700; line-height: 1.08; letter-spacing: -0.025em; margin-bottom: 1.4rem; }
-    h1 em { font-style: normal; color: var(--accent2); }
-    .hero-sub { font-size: 1.05rem; color: var(--muted); max-width: 560px; margin-bottom: 2.8rem; line-height: 1.8; }
+    h1 em { font-style: normal; color: var(accent2); }
+    .hero-sub { font-size: 1.05rem; color: var(muted); max-width: 560px; margin-bottom: 2.8rem; line-height: 1.8; }
     .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 4.5rem; }
     .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.7rem 1.5rem; border-radius: 6px; font-size: 0.88rem; font-weight: 500; transition: all .2s; cursor: pointer; }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent2); text-decoration: none; }
-    .btn-ghost { border: 1px solid var(--border); color: var(--muted); }
-    .btn-ghost:hover { border-color: var(--accent); color: var(--text); text-decoration: none; }
-    .stats-row { display: flex; flex-wrap: wrap; gap: 3rem; border-top: 1px solid var(--border); padding-top: 2.8rem; }
+    .btn-primary { background: var(accent); color: #fff; }
+    .btn-primary:hover { background: var(accent2); text-decoration: none; }
+    .btn-ghost { border: 1px solid var(border); color: var(muted); }
+    .btn-ghost:hover { border-color: var(accent); color: var(text); text-decoration: none; }
+    .stats-row { display: flex; flex-wrap: wrap; gap: 3rem; border-top: 1px solid var(border); padding-top: 2.8rem; }
     .stat-num { font-size: 2.2rem; font-weight: 700; line-height: 1; }
-    .stat-num span { color: var(--accent2); }
-    .stat-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 0.3rem; }
+    .stat-num span { color: var(accent2); }
+    .stat-label { font-size: 0.75rem; color: var(muted); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 0.3rem; }
 
     /* SECTIONS */
     section { padding: 5.5rem 2.5rem; }
     .inner { max-width: 1140px; margin: 0 auto; }
-    .sec-eye { font-size: 0.74rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.7rem; }
+    .sec-eye { font-size: 0.74rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(accent); margin-bottom: 0.7rem; }
     h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); font-weight: 700; letter-spacing: -0.018em; margin-bottom: 0.5rem; }
-    .sec-sub { color: var(--muted); font-size: 0.92rem; max-width: 500px; margin-bottom: 3rem; }
-    .alt-bg { background: var(--surface); }
+    .sec-sub { color: var(muted); font-size: 0.92rem; max-width: 500px; margin-bottom: 3rem; }
+    .alt-bg { background: var(surface); }
 
     /* ABOUT */
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
-    .about-text p { color: var(--muted); line-height: 1.85; margin-bottom: 1rem; font-size: 0.95rem; }
-    .about-text p strong { color: var(--text); }
+    .about-text p { color: var(muted); line-height: 1.85; margin-bottom: 1rem; font-size: 0.95rem; }
+    .about-text p strong { color: var(text); }
     .about-highlights { display: flex; flex-direction: column; gap: 0.8rem; }
-    .highlight-item { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; }
+    .highlight-item { background: var(card); border: 1px solid var(border); border-left: 3px solid var(accent); border-radius: 6px; padding: 1rem 1.2rem; }
     .highlight-item h4 { font-size: 0.88rem; font-weight: 600; margin-bottom: 0.2rem; }
-    .highlight-item p { font-size: 0.8rem; color: var(--muted); }
+    .highlight-item p { font-size: 0.8rem; color: var(muted); }
 
     /* FEATURED PROJECTS */
     .featured { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 2rem; }
-    .feat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem 2.2rem; }
-    .feat-card:hover { border-color: var(--accent); }
+    .feat-card { background: var(card); border: 1px solid var(border); border-radius: 12px; padding: 2rem 2.2rem; }
+    .feat-card:hover { border-color: var(accent); }
     .feat-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; gap: 1rem; }
     .feat-title-block h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.3rem; }
-    .feat-meta { font-size: 0.78rem; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase; }
+    .feat-meta { font-size: 0.78rem; color: var(accent); letter-spacing: 0.05em; text-transform: uppercase; }
     .feat-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
-    .tag { background: var(--tag-bg); color: var(--tag-txt); border: 1px solid var(--border); padding: 0.2rem 0.6rem; border-radius: 3px; font-size: 0.73rem; }
+    .tag { background: var(tag-bg); color: var(tag-txt); border: 1px solid var(border); padding: 0.2rem 0.6rem; border-radius: 3px; font-size: 0.73rem; }
     .feat-body { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-    .feat-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.8; }
+    .feat-desc { color: var(muted); font-size: 0.88rem; line-height: 1.8; }
     .feat-desc p { margin-bottom: 0.7rem; }
     .feat-desc p:last-child { margin-bottom: 0; }
-    .feat-results h4 { font-size: 0.73rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.8rem; }
+    .feat-results h4 { font-size: 0.73rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(muted); margin-bottom: 0.8rem; }
     .result-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-    .result-table td { padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--border); }
-    .result-table td:first-child { color: var(--muted); }
-    .result-table td:last-child { color: var(--text); font-weight: 500; text-align: right; }
+    .result-table td { padding: 0.45rem 0.6rem; border-bottom: 1px solid var(border); }
+    .result-table td:first-child { color: var(muted); }
+    .result-table td:last-child { color: var(text); font-weight: 500; text-align: right; }
     .result-table tr:last-child td { border-bottom: none; }
-    .val-good { color: var(--green) !important; }
-    .val-note { color: var(--amber) !important; }
-    .feat-link { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.8rem; color: var(--accent2); margin-top: 1.2rem; }
+    .val-good { color: var(green) !important; }
+    .val-note { color: var(amber) !important; }
+    .feat-link { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.8rem; color: var(accent2); margin-top: 1.2rem; }
 
     /* PROJECT GRID */
     .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
-    .proj-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.6rem; display: flex; flex-direction: column; transition: border-color .2s, transform .2s; }
-    .proj-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .proj-card { background: var(card); border: 1px solid var(border); border-radius: 10px; padding: 1.6rem; display: flex; flex-direction: column; transition: border-color .2s, transform .2s; }
+    .proj-card:hover { border-color: var(accent); transform: translateY(-2px); }
     .proj-icon { font-size: 1.5rem; margin-bottom: 0.9rem; }
     .proj-card h3 { font-size: 0.97rem; font-weight: 600; margin-bottom: 0.5rem; }
-    .proj-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.75; flex: 1; margin-bottom: 1rem; }
+    .proj-card p { color: var(muted); font-size: 0.85rem; line-height: 1.75; flex: 1; margin-bottom: 1rem; }
     .proj-card .feat-tags { margin-bottom: 0; }
 
     /* RESEARCH */
-    .research-card { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--accent2); border-radius: 10px; padding: 2rem 2.2rem; }
+    .research-card { background: var(card); border: 1px solid var(border); border-left: 3px solid var(accent2); border-radius: 10px; padding: 2rem 2.2rem; }
     .research-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
-    .research-meta { font-size: 0.8rem; color: var(--accent2); margin-bottom: 1rem; }
+    .research-meta { font-size: 0.8rem; color: var(accent2); margin-bottom: 1rem; }
     .research-body { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-    .research-body p { color: var(--muted); font-size: 0.88rem; line-height: 1.8; }
-    .research-scope h4 { font-size: 0.73rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.7rem; }
-    .scope-item { font-size: 0.85rem; display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: var(--text); }
-    .scope-item::before { content:'▸'; color: var(--accent2); font-size: 0.65rem; margin-top: 0.35rem; flex-shrink: 0; }
+    .research-body p { color: var(muted); font-size: 0.88rem; line-height: 1.8; }
+    .research-scope h4 { font-size: 0.73rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(muted); margin-bottom: 0.7rem; }
+    .scope-item { font-size: 0.85rem; display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: var(text); }
+    .scope-item::before { content:'▸'; color: var(accent2); font-size: 0.65rem; margin-top: 0.35rem; flex-shrink: 0; }
 
     /* EXPERIENCE */
     .exp-list { display: flex; flex-direction: column; gap: 1.1rem; }
-    .exp-card { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--border); border-radius: 8px; padding: 1.3rem 1.6rem; transition: border-left-color .2s; }
-    .exp-card:hover { border-left-color: var(--accent); }
+    .exp-card { background: var(card); border: 1px solid var(border); border-left: 3px solid var(border); border-radius: 8px; padding: 1.3rem 1.6rem; transition: border-left-color .2s; }
+    .exp-card:hover { border-left-color: var(accent); }
     .exp-card h3 { font-size: 0.97rem; font-weight: 600; }
-    .exp-card .exp-meta { font-size: 0.78rem; color: var(--accent2); margin: 0.2rem 0 0.6rem; }
-    .exp-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.7; }
+    .exp-card .exp-meta { font-size: 0.78rem; color: var(accent2); margin: 0.2rem 0 0.6rem; }
+    .exp-card p { color: var(muted); font-size: 0.85rem; line-height: 1.7; }
 
     /* SKILLS */
     .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; }
-    .skill-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem; }
-    .skill-card h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
+    .skill-card { background: var(card); border: 1px solid var(border); border-radius: 8px; padding: 1.4rem; }
+    .skill-card h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(muted); margin-bottom: 1rem; }
     .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
     .skill-list li { font-size: 0.87rem; display: flex; align-items: center; gap: 0.5rem; }
-    .skill-list li::before { content:'▸'; color: var(--accent); font-size: 0.62rem; }
+    .skill-list li::before { content:'▸'; color: var(accent); font-size: 0.62rem; }
 
     /* EDUCATION */
-    .edu-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 2rem 2.2rem; display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; }
+    .edu-card { background: var(card); border: 1px solid var(border); border-radius: 10px; padding: 2rem 2.2rem; display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; }
     .edu-main h3 { font-size: 1.1rem; font-weight: 600; }
-    .edu-main .inst { color: var(--accent2); font-size: 0.9rem; margin: 0.3rem 0 0.6rem; }
-    .edu-main p { color: var(--muted); font-size: 0.85rem; line-height: 1.7; }
-    .edu-modules h4 { font-size: 0.73rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.8rem; }
-    .module-tag { display: inline-block; background: var(--tag-bg); color: var(--tag-txt); border: 1px solid var(--border); padding: 0.25rem 0.6rem; border-radius: 3px; font-size: 0.75rem; margin: 0.2rem 0.2rem 0 0; }
+    .edu-main .inst { color: var(accent2); font-size: 0.9rem; margin: 0.3rem 0 0.6rem; }
+    .edu-main p { color: var(muted); font-size: 0.85rem; line-height: 1.7; }
+    .edu-modules h4 { font-size: 0.73rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(muted); margin-bottom: 0.8rem; }
+    .module-tag { display: inline-block; background: var(tag-bg); color: var(tag-txt); border: 1px solid var(border); padding: 0.25rem 0.6rem; border-radius: 3px; font-size: 0.75rem; margin: 0.2rem 0.2rem 0 0; }
 
     /* CONTACT */
     #contact { text-align: center; }
     .contact-inner { max-width: 520px; margin: 0 auto; }
-    #contact p { color: var(--muted); margin-bottom: 2rem; line-height: 1.8; }
+    #contact p { color: var(muted); margin-bottom: 2rem; line-height: 1.8; }
     .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
 
-    footer { border-top: 1px solid var(--border); text-align: center; padding: 1.8rem; color: var(--muted); font-size: 0.78rem; }
+    footer { border-top: 1px solid var(border); text-align: center; padding: 1.8rem; color: var(muted); font-size: 0.78rem; }
 
     @media (max-width: 720px) {
       nav { padding: 0 1.2rem; }
@@ -161,7 +161,7 @@
 </head>
 <body>
 
-<!-- NAV -->
+<! NAV -->
 <nav>
   <div class="nav-brand"><span>Walid</span>.AbouZikry</div>
   <ul class="nav-links">
@@ -174,12 +174,12 @@
   </ul>
 </nav>
 
-<!-- HERO -->
+<! HERO -->
 <div class="hero">
   <div class="hero-eyebrow">MEng Mechanical Engineering · University of Sussex</div>
   <h1>Engineering that<br>holds up <em>under load.</em></h1>
   <p class="hero-sub">
-    Structural FEA, turbulent CFD, MATLAB numerical methods, SolidWorks assemblies, and hands-on machining — I work across the full stack of mechanical engineering, from matrix solvers to manufactured parts.
+    Structural FEA, turbulent CFD, MATLAB numerical methods, SolidWorks assemblies, and hands-on machining · I work across the full stack of mechanical engineering, from matrix solvers to manufactured parts.
   </p>
   <div class="hero-ctas">
     <a href="#projects" class="btn btn-primary">View Projects</a>
@@ -195,16 +195,16 @@
   </div>
 </div>
 
-<!-- ABOUT -->
+<! ABOUT -->
 <section id="about" class="alt-bg">
   <div class="inner">
     <div class="sec-eye">Background</div>
     <h2>About</h2>
     <div class="about-grid" style="margin-top:2rem;">
       <div class="about-text">
-        <p>I'm a Year 2 MEng Mechanical Engineering student at the University of Sussex with a focus on simulation-driven design and numerical analysis. My work spans <strong>CFD in ANSYS Fluent</strong>, <strong>structural FEA in ANSYS Mechanical</strong>, <strong>MATLAB-based numerical modelling</strong>, and <strong>SolidWorks CAD</strong> — backed by hands-on manufacturing experience in the workshop.</p>
-        <p>Outside of coursework, I'm working as a <strong>Junior Research Associate</strong> with Professor Cyril Crua on cryogenic spray characterisation for liquid hydrogen refuelling systems — applying PIV and high-speed imaging analysis to a real clean-energy engineering problem.</p>
-        <p>I'm interested in roles where simulation and physical engineering meet — placements, internships, or research positions in aerospace, automotive, or energy sectors.</p>
+        <p>I'm a Year 2 MEng Mechanical Engineering student at the University of Sussex with a focus on simulation-driven design and numerical analysis. My work spans <strong>CFD in ANSYS Fluent</strong>, <strong>structural FEA in ANSYS Mechanical</strong>, <strong>MATLAB-based numerical modelling</strong>, and <strong>SolidWorks CAD</strong> · backed by hands-on manufacturing experience in the workshop.</p>
+        <p>Outside of coursework, I'm working as a <strong>Junior Research Associate</strong> with Professor Cyril Crua on cryogenic spray characterisation for liquid hydrogen refuelling systems · applying PIV and high-speed imaging analysis to a real clean-energy engineering problem.</p>
+        <p>I'm interested in roles where simulation and physical engineering meet · placements, internships, or research positions in aerospace, automotive, or energy sectors.</p>
       </div>
       <div class="about-highlights">
         <div class="highlight-item">
@@ -217,24 +217,24 @@
         </div>
         <div class="highlight-item">
           <h4>Fire-Extinguishing Drone</h4>
-          <p>Autonomous targeting and suppression system — mechanical design and fabrication</p>
+          <p>Autonomous targeting and suppression system · mechanical design and fabrication</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
+<! PROJECTS -->
 <section id="projects">
   <div class="inner">
     <div class="sec-eye">Work</div>
     <h2>Projects</h2>
-    <p class="sec-sub">Simulation, analysis, and fabrication — from CFD to machined components.</p>
+    <p class="sec-sub">Simulation, analysis, and fabrication · from CFD to machined components.</p>
 
-    <!-- FEATURED -->
+    <! FEATURED -->
     <div class="featured">
 
-      <!-- P3 CFD -->
+      <! P3 CFD -->
       <div class="feat-card">
         <div class="feat-header">
           <div class="feat-title-block">
@@ -250,7 +250,7 @@
           <div class="feat-desc">
             <p>Steady-state CFD simulation of turbulent separated and reattaching flow over a backward-facing step at Re = 5100, expansion ratio 1.2. The SST k-ω turbulence model was selected for its near-wall accuracy in adverse pressure gradient flows and validated against the DNS benchmark of Le et al. (1997).</p>
             <p>A structured quad mesh with wall inflation layers was refined across five successive meshes, tracking reattachment length as the independence monitor. The 101,508-element mesh was selected for all post-processing, providing resolution for secondary quantities including pressure coefficient and turbulent kinetic energy.</p>
-            <p>A 9th-order polynomial was fitted to both the RANS and DNS velocity profiles at x/h = 6, achieving R² = 1.000 for both. The fits revealed the RANS boundary layer plateau at y/h ≈ 1.0 versus y/h ≈ 2.0 in DNS — a direct quantitative measure of the RANS reattachment length overprediction.</p>
+            <p>A 9th-order polynomial was fitted to both the RANS and DNS velocity profiles at x/h = 6, achieving R² = 1.000 for both. The fits revealed the RANS boundary layer plateau at y/h ≈ 1.0 versus y/h ≈ 2.0 in DNS · a direct quantitative measure of the RANS reattachment length overprediction.</p>
           </div>
           <div class="feat-results">
             <h4>Key Results</h4>
@@ -268,12 +268,12 @@
         </div>
       </div>
 
-      <!-- P4 FEA -->
+      <! P4 FEA -->
       <div class="feat-card">
         <div class="feat-header">
           <div class="feat-title-block">
             <div class="feat-meta">ANSYS Mechanical · MATLAB · H7137</div>
-            <h3>FEA — Planar Truss and Belleville Spring Washer</h3>
+            <h3>FEA · Planar Truss and Belleville Spring Washer</h3>
           </div>
           <a href="https://github.com/wabouz076/P4FEA" class="btn btn-ghost" style="white-space:nowrap; flex-shrink:0;">↗ Repository</a>
         </div>
@@ -289,8 +289,8 @@
           <div class="feat-results">
             <h4>Key Results</h4>
             <table class="result-table">
-              <tr><td>Truss error — LINK180</td><td class="val-good">0.006% max</td></tr>
-              <tr><td>Truss error — BEAM188</td><td class="val-good">0.115% max</td></tr>
+              <tr><td>Truss error · LINK180</td><td class="val-good">0.006% max</td></tr>
+              <tr><td>Truss error · BEAM188</td><td class="val-good">0.115% max</td></tr>
               <tr><td>Analytical k (Norton FD)</td><td>12,956 N/mm</td></tr>
               <tr><td>Manufacturer force</td><td>68,204 N</td></tr>
               <tr><td>Analytical force error</td><td class="val-good">0.86%</td></tr>
@@ -302,12 +302,12 @@
         </div>
       </div>
 
-      <!-- P5 MATLAB -->
+      <! P5 MATLAB -->
       <div class="feat-card">
         <div class="feat-header">
           <div class="feat-title-block">
             <div class="feat-meta">MATLAB R2021b · ODE45 · H7137</div>
-            <h3>MATLAB Numerical Modelling Portfolio — Warren Truss and Dynamic Systems</h3>
+            <h3>MATLAB Numerical Modelling Portfolio · Warren Truss and Dynamic Systems</h3>
           </div>
           <a href="https://github.com/wabouz076/P5MATLAB" class="btn btn-ghost" style="white-space:nowrap; flex-shrink:0;">↗ Repository</a>
         </div>
@@ -337,29 +337,29 @@
 
     </div>
 
-    <!-- OTHER PROJECTS -->
+    <! OTHER PROJECTS -->
     <div class="proj-grid">
       <div class="proj-card">
         <div class="proj-icon">🚲</div>
-        <h3>SolidWorks Bicycle — Custom Suspension Design</h3>
+        <h3>SolidWorks Bicycle · Custom Suspension Design</h3>
         <p>Full bicycle assembly in SolidWorks with a custom-engineered rear suspension system. Suspension geometry designed analytically, kinematic behaviour verified in SolidWorks Motion. Supported by a 116-page technical design report.</p>
         <div class="feat-tags"><span class="tag">SolidWorks</span><span class="tag">Kinematics</span><span class="tag">Suspension</span></div>
       </div>
       <div class="proj-card">
         <div class="proj-icon">✈️</div>
-        <h3>SolidWorks Commercial Aircraft — Full Assembly</h3>
+        <h3>SolidWorks Commercial Aircraft · Full Assembly</h3>
         <p>Fully articulated passenger aircraft in SolidWorks. Includes turbofan engine sub-assemblies and a retractable landing gear mechanism with realistic retraction geometry, animated using SolidWorks Motion.</p>
         <div class="feat-tags"><span class="tag">SolidWorks</span><span class="tag">SolidWorks Motion</span><span class="tag">Mechanisms</span></div>
       </div>
       <div class="proj-card">
         <div class="proj-icon">🔨</div>
-        <h3>Machined Hammer — Workshop Manufacture</h3>
+        <h3>Machined Hammer · Workshop Manufacture</h3>
         <p>Design and manufacture of a functional engineer's hammer. Structured material selection using Ashby methodology, followed by milling and drilling to a defined process plan. Chip morphology and tool wear related back to material microstructure.</p>
         <div class="feat-tags"><span class="tag">Milling</span><span class="tag">Material Selection</span><span class="tag">Process Planning</span></div>
       </div>
       <div class="proj-card">
         <div class="proj-icon">🏗️</div>
-        <h3>Structural Bridge — Timber Construction</h3>
+        <h3>Structural Bridge · Timber Construction</h3>
         <p>Group design-and-build project to maximise load-to-weight ratio within set material and geometry constraints. Method-of-joints analysis before fabrication, experimentally validated by incremental load testing to failure.</p>
         <div class="feat-tags"><span class="tag">Structural Analysis</span><span class="tag">Fabrication</span><span class="tag">Load Testing</span></div>
       </div>
@@ -367,7 +367,7 @@
   </div>
 </section>
 
-<!-- RESEARCH -->
+<! RESEARCH -->
 <section id="research" class="alt-bg">
   <div class="inner">
     <div class="sec-eye">Research</div>
@@ -391,7 +391,7 @@
   </div>
 </section>
 
-<!-- EXPERIENCE -->
+<! EXPERIENCE -->
 <section id="experience">
   <div class="inner">
     <div class="sec-eye">Beyond Coursework</div>
@@ -399,7 +399,7 @@
     <p class="sec-sub" style="margin-bottom:2rem;">Engineering outside the lecture theatre.</p>
     <div class="exp-list">
       <div class="exp-card">
-        <h3>Formula Student — University of Sussex Racing</h3>
+        <h3>Formula Student · University of Sussex Racing</h3>
         <div class="exp-meta">Extracurricular · Ongoing</div>
         <p>Hands-on involvement in the design, analysis, and development of a competitive Formula Student vehicle. Applied structural and mechanical engineering principles to real race car components under weight, stiffness, and manufacturability constraints.</p>
       </div>
@@ -408,13 +408,13 @@
         <div class="exp-meta">Engineering Design Project</div>
         <p>Designed and developed an autonomous drone system capable of targeting and suppressing fires. Integrated mechanical design, flight dynamics considerations, payload mounting, and practical fabrication into a working prototype.</p>
       </div>
-      <p>Applied for and progressed through a Quality NPI placement role at Cummins' Daventry facility. Prepared technical presentations and engaged with industry-standard competency frameworks for new product introduction quality engineering.</p>
+      
       </div>
     </div>
   </div>
 </section>
 
-<!-- SKILLS -->
+<! SKILLS -->
 <section id="skills" class="alt-bg">
   <div class="inner">
     <div class="sec-eye">Toolkit</div>
@@ -423,8 +423,8 @@
       <div class="skill-card">
         <h3>Simulation</h3>
         <ul class="skill-list">
-          <li>ANSYS Fluent — CFD</li>
-          <li>ANSYS Mechanical — FEA</li>
+          <li>ANSYS Fluent · CFD</li>
+          <li>ANSYS Mechanical · FEA</li>
           <li>SST k-ω turbulence modelling</li>
           <li>Grid independence studies</li>
           <li>Nonlinear static analysis</li>
@@ -434,18 +434,18 @@
       <div class="skill-card">
         <h3>Programming</h3>
         <ul class="skill-list">
-          <li>MATLAB — scripting & functions</li>
+          <li>MATLAB · scripting & functions</li>
           <li>ODE solvers (ODE45)</li>
           <li>Matrix methods & linear algebra</li>
           <li>Numerical root-finding</li>
           <li>Regression & curve fitting</li>
-          <li>Python — scripting</li>
+          <li>Python · scripting</li>
         </ul>
       </div>
       <div class="skill-card">
         <h3>CAD & Manufacturing</h3>
         <ul class="skill-list">
-          <li>SolidWorks — parts & assemblies</li>
+          <li>SolidWorks · parts & assemblies</li>
           <li>SolidWorks Motion</li>
           <li>CNC milling & drilling</li>
           <li>Material selection (Ashby)</li>
@@ -468,7 +468,7 @@
   </div>
 </section>
 
-<!-- EDUCATION -->
+<! EDUCATION -->
 <section id="education">
   <div class="inner">
     <div class="sec-eye">Background</div>
@@ -477,7 +477,7 @@
       <div class="edu-main">
         <h3>MEng Mechanical Engineering</h3>
         <div class="inst">University of Sussex</div>
-        <p>Candidate No. 293259 · Brighton, England<br>Year 2 — Integrated Masters programme</p>
+        <p>Candidate No. 293259 · Brighton, England<br>Year 2 · Integrated Masters programme</p>
       </div>
       <div class="edu-modules">
         <h4>Modules</h4>
@@ -495,7 +495,7 @@
   </div>
 </section>
 
-<!-- CONTACT -->
+<! CONTACT -->
 <section id="contact" class="alt-bg">
   <div class="inner">
     <div class="contact-inner">
