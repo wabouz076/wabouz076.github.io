@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Walid.AbouZikry · Engineering Portfolio</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232e7de9'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='14' fill='white'>WA</text></svg>">
   <style>
     :root {
       --bg:       #07090f;
@@ -148,6 +149,13 @@
 
     footer { border-top: 1px solid var(--border); text-align: center; padding: 1.8rem; color: var(--muted); font-size: 0.78rem; }
 
+
+    @media (max-width: 720px) {
+      .result-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .result-table { min-width: 340px; }
+      /* Hide less essential rows on mobile */
+      .mobile-hide { display: none; }
+    }
     @media (max-width: 720px) {
       nav { padding: 0 1.2rem; }
       .nav-links { gap: 1.2rem; }
@@ -263,16 +271,16 @@
           </div>
           <div class="feat-results">
             <h4>Key Results</h4>
-            <table class="result-table">
+            <div class="result-table-wrap"><table class="result-table">
               <tr><td>Reattachment length Xr</td><td class="val-good">6.53h (DNS: 6.28h)</td></tr>
               <tr><td>Error vs DNS benchmark</td><td class="val-good">4%</td></tr>
               <tr><td>Analysis mesh</td><td>101,508 elements</td></tr>
-              <tr><td>Grid-independent at</td><td>53,284 elements</td></tr>
-              <tr><td>Inlet velocity</td><td>7.449 m/s</td></tr>
+              <tr class="mobile-hide"><td>Grid-independent at</td><td>53,284 elements</td></tr>
+              <tr class="mobile-hide"><td>Inlet velocity</td><td>7.449 m/s</td></tr>
               <tr><td>Maximum Cp</td><td>0.325</td></tr>
               <tr><td>Peak TKE at x/h = 6</td><td class="val-note">0.040 vs DNS 0.012</td></tr>
-              <tr><td>Polynomial curve fit</td><td class="val-good">R² = 1.000</td></tr>
-            </table>
+              <tr class="mobile-hide"><td>Polynomial curve fit</td><td class="val-good">R² = 1.000</td></tr>
+            </table></div>
           </div>
         </div>
       </div>
@@ -297,7 +305,7 @@
           </div>
           <div class="feat-results">
             <h4>Key Results</h4>
-            <table class="result-table">
+            <div class="result-table-wrap"><table class="result-table">
               <tr><td>Truss error · LINK180</td><td class="val-good">0.006% max</td></tr>
               <tr><td>Truss error · BEAM188</td><td class="val-good">0.115% max</td></tr>
               <tr><td>Analytical k (Norton FD)</td><td>12,956 N/mm</td></tr>
@@ -306,7 +314,7 @@
               <tr><td>2D axisymmetric error</td><td class="val-good">2.42%</td></tr>
               <tr><td>3D solid model error</td><td class="val-note">15.13%</td></tr>
               <tr><td>3D vs analytical k</td><td class="val-note">+58.7% overestimate</td></tr>
-            </table>
+            </table></div>
           </div>
         </div>
       </div>
@@ -331,7 +339,7 @@
           </div>
           <div class="feat-results">
             <h4>Problem Summary</h4>
-            <table class="result-table">
+            <div class="result-table-wrap"><table class="result-table">
               <tr><td>Problem 1</td><td>14×14 matrix · LU decomposition</td></tr>
               <tr><td>Problem 2</td><td>10,000 load combinations · FoS contours</td></tr>
               <tr><td>Problem 3</td><td>Regression + secant root-finding</td></tr>
@@ -339,7 +347,7 @@
               <tr><td>Problem 5</td><td>ODE45 · SDOF · live dashboard</td></tr>
               <tr><td>Applied loads</td><td>P1=10kN · P2=13kN · P3=17kN</td></tr>
               <tr><td>Dynamic params</td><td>m=1200kg · k=4×10⁶N/m · ζ=0.05</td></tr>
-            </table>
+            </table></div>
           </div>
         </div>
       </div>
