@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FEA · Planar Truss & Belleville Spring · Walid Abou Zikry</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0b0b0b;
+    --surface:   #141414;
+    --border:    #222;
+    --accent:    #4f8ef7;
+    --accent-dim:#1e3a6e;
+    --accent2:   #e07b3f;
+    --text:      #e8e8e8;
+    --muted:     #666;
+    --tag-bg:    #1a1a1a;
+    --tag-text:  #999;
+    --radius:    6px;
+    --font:      -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    --mono:      "SF Mono", "Fira Code", "Consolas", monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(11,11,11,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand { font-size: 13px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); text-decoration: none; }
+
+  .nav-back {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.15s;
+  }
+  .nav-back:hover { color: var(--text); }
+  .nav-back svg { width: 14px; height: 14px; }
+
+  /* HEADER */
+  header { max-width: 960px; margin: 0 auto; padding: 4rem 2rem 2.5rem; }
+
+  .eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700;
+    line-height: 1.2; letter-spacing: -0.02em; color: #fff; margin-bottom: 1rem;
+  }
+
+  .subtitle { color: var(--muted); font-size: 14px; max-width: 580px; line-height: 1.7; margin-bottom: 1.5rem; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.03em;
+    color: var(--tag-text); background: var(--tag-bg);
+    border: 1px solid var(--border); border-radius: 3px; padding: 3px 8px;
+  }
+
+  /* STATS */
+  .stats-bar {
+    max-width: 960px; margin: 0 auto 3rem; padding: 0 2rem;
+    display: flex; gap: 0; border: 1px solid var(--border);
+    border-radius: var(--radius); background: var(--surface); overflow: hidden;
+  }
+
+  .stat { flex: 1; padding: 1.1rem 1.4rem; border-right: 1px solid var(--border); }
+  .stat:last-child { border-right: none; }
+
+  .stat-val {
+    font-family: var(--mono); font-size: 1.05rem; font-weight: 600;
+    color: var(--accent); letter-spacing: -0.01em; display: block;
+  }
+
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
+  /* PART DIVIDER */
+  .part-heading {
+    max-width: 960px; margin: 0 auto 1.5rem; padding: 0 2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .part-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; white-space: nowrap;
+  }
+
+  .part-label.part-1 { color: var(--accent); }
+  .part-label.part-2 { color: var(--accent2); }
+
+  .part-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* GALLERY */
+  .gallery {
+    max-width: 960px; margin: 0 auto; padding: 0 2rem 3rem;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5px;
+  }
+
+  .card-wide { grid-column: 1 / -1; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s; position: relative;
+  }
+
+  .card:hover { border-color: var(--accent-dim); transform: translateY(-2px); }
+  .card:hover .card-overlay { opacity: 1; }
+
+  .card-img-wrap {
+    width: 100%; aspect-ratio: 16 / 9; overflow: hidden;
+    background: #f8f8f8; display: flex; align-items: center; justify-content: center;
+  }
+
+  .card-wide .card-img-wrap { aspect-ratio: 21 / 7; }
+
+  /* White-bg images (ANSYS/MATLAB outputs) look better on light surface */
+  .card img {
+    width: 100%; height: 100%; object-fit: contain;
+    display: block; transition: transform 0.3s; padding: 4px;
+  }
+
+  .card:hover img { transform: scale(1.02); }
+
+  .card-overlay {
+    position: absolute; inset: 0;
+    background: rgba(79,142,247,0.07);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.2s;
+  }
+
+  .zoom-icon {
+    width: 36px; height: 36px; background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.2); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .zoom-icon svg { width: 16px; height: 16px; color: #fff; }
+
+  .card-meta { padding: 0.9rem 1.1rem 1rem; border-top: 1px solid var(--border); }
+
+  .card-num { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 3px; }
+  .card-num.p2 { color: var(--accent2); }
+
+  .card-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+  .card-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
+  /* LIGHTBOX */
+  .lightbox {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.93); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center; padding: 2rem;
+  }
+  .lightbox.open { display: flex; }
+
+  .lb-inner {
+    position: relative; max-width: 1100px; width: 100%;
+    display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+  }
+
+  .lb-img-wrap {
+    width: 100%; background: #f5f5f5; border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    display: flex; align-items: center; justify-content: center; max-height: 75vh;
+  }
+
+  .lb-img-wrap img { max-width: 100%; max-height: 75vh; object-fit: contain; display: block; }
+
+  .lb-caption { text-align: center; max-width: 640px; }
+  .lb-caption-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .lb-caption-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  .lb-nav { display: flex; gap: 0.5rem; align-items: center; }
+
+  .lb-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); color: var(--text); padding: 8px 16px;
+    font-size: 13px; cursor: pointer; transition: border-color 0.15s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .lb-btn:hover { border-color: var(--accent); }
+
+  .lb-close {
+    position: absolute; top: -3rem; right: 0; background: none; border: none;
+    color: var(--muted); font-size: 24px; cursor: pointer; line-height: 1; transition: color 0.15s;
+  }
+  .lb-close:hover { color: var(--text); }
+
+  .lb-counter { font-family: var(--mono); font-size: 12px; color: var(--muted); padding: 8px 14px; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-size: 12px; color: var(--muted); }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .stats-bar { flex-direction: column; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat:last-child { border-bottom: none; }
+    .gallery { grid-template-columns: 1fr; }
+    .card-wide .card-img-wrap { aspect-ratio: 16 / 9; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Walid.AbouZikry</a>
+  <a href="/#projects" class="nav-back">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+    </svg>
+    Back to Portfolio
+  </a>
+</nav>
+
+<header>
+  <div class="eyebrow">ANSYS Mechanical · MATLAB · H7137</div>
+  <h1>FEA · Planar Truss &amp;<br>Belleville Spring Washer</h1>
+  <p class="subtitle">
+    Two-part FEA study. Part 1 solves an 8-DOF planar truss via LU decomposition in MATLAB and verifies against LINK180 and BEAM188 elements in ANSYS. Part 2 analyses a Belleville spring washer analytically and across 2D axisymmetric and 3D solid FEA models, with large deflection enabled throughout.
+  </p>
+  <div class="tags">
+    <span class="tag">ANSYS Mechanical</span>
+    <span class="tag">MATLAB</span>
+    <span class="tag">LU Decomposition</span>
+    <span class="tag">LINK180</span>
+    <span class="tag">BEAM188</span>
+    <span class="tag">Axisymmetric FEA</span>
+    <span class="tag">Nonlinear</span>
+    <span class="tag">Norton (1996)</span>
+    <span class="tag">Central Finite Difference</span>
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <span class="stat-val">0.006%</span>
+    <span class="stat-label">Max Truss Error · LINK180</span>
+  </div>
+  <div class="stat">
+    <span class="stat-val">0.115%</span>
+    <span class="stat-label">Max Truss Error · BEAM188</span>
+  </div>
+  <div class="stat">
+    <span class="stat-val">12,956 N/mm</span>
+    <span class="stat-label">Analytical Spring Constant</span>
+  </div>
+  <div class="stat">
+    <span class="stat-val">2.42%</span>
+    <span class="stat-label">2D Axisymmetric Error</span>
+  </div>
+  <div class="stat">
+    <span class="stat-val">+58.7%</span>
+    <span class="stat-label">3D Model Overestimate</span>
+  </div>
+</div>
+
+<!-- PART 1 HEADING -->
+<div class="part-heading">
+  <span class="part-label part-1">Part 1 · Planar Truss</span>
+</div>
+
+<div class="gallery">
+
+  <!-- Truss BC diagram - featured -->
+  <div class="card card-wide" onclick="openLightbox(0)">
+    <div class="card-img-wrap" style="background:#fff;">
+      <img src="assets/fea/p1_TRUSS_BC.png" alt="Truss Geometry and Boundary Conditions" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num">FIG. 01</div>
+      <div class="card-title">Planar Truss · Geometry and Boundary Conditions</div>
+      <div class="card-desc">4-node planar truss with fixed supports at A and B, 20 kN downward load at node 4. Member lengths L and √2·L. 8 DOF system solved via direct stiffness method in MATLAB using LU decomposition of the global stiffness matrix.</div>
+    </div>
+  </div>
+
+  <!-- LINK180 deformation -->
+  <div class="card" onclick="openLightbox(1)">
+    <div class="card-img-wrap">
+      <img src="assets/fea/truss_deformation.png" alt="LINK180 Truss Deformation" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num">FIG. 02</div>
+      <div class="card-title">LINK180 Truss · Total Deformation</div>
+      <div class="card-desc">ANSYS LINK180 bar element model. Maximum deformation 27.398 mm at node 4. All 8 nodal displacements reproduced with a maximum error of 0.006% against MATLAB solution.</div>
+    </div>
+  </div>
+
+  <!-- BEAM188 deformation -->
+  <div class="card" onclick="openLightbox(2)">
+    <div class="card-img-wrap">
+      <img src="assets/fea/beam_deformation.png" alt="BEAM188 Truss Deformation" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num">FIG. 03</div>
+      <div class="card-title">BEAM188 Truss · Total Deformation</div>
+      <div class="card-desc">ANSYS BEAM188 element model including bending stiffness. Maximum deformation 27.402 mm — marginally higher than LINK180 due to bending contributions. Maximum error 0.115% against MATLAB.</div>
+    </div>
+  </div>
+
+  <!-- Comparison bar chart - featured -->
+  <div class="card card-wide" onclick="openLightbox(3)">
+    <div class="card-img-wrap" style="background:#fff;">
+      <img src="assets/fea/p1_comparison.png" alt="MATLAB vs FEA Comparison" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num">FIG. 04</div>
+      <div class="card-title">Nodal Displacement Comparison · MATLAB vs FEA Truss vs FEA Beam</div>
+      <div class="card-desc">All 8 DOF compared across three methods. MATLAB (direct stiffness), LINK180, and BEAM188 results are in close agreement throughout, confirming the validity of the analytical formulation. Maximum deviation 0.115% for BEAM188 at x₇.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- PART 2 HEADING -->
+<div class="part-heading">
+  <span class="part-label part-2">Part 2 · Belleville Spring Washer</span>
+</div>
+
+<div class="gallery">
+
+  <!-- 2D geometry -->
+  <div class="card" onclick="openLightbox(4)">
+    <div class="card-img-wrap" style="background:#fff;">
+      <img src="assets/fea/2D_GEOMETRY_AND_BC.png" alt="2D Axisymmetric Geometry" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num p2">FIG. 05</div>
+      <div class="card-title">2D Axisymmetric Geometry and Boundary Conditions</div>
+      <div class="card-desc">Cross-sectional profile showing Belleville spring dimensions. Edge A: X = free, Y = −3.72 mm (applied displacement). Vertex B: X = free, Y = 0 mm. Outer radius 100 mm, inner radius 41 mm, thickness 6.70 mm.</div>
+    </div>
+  </div>
+
+  <!-- 3D geometry -->
+  <div class="card" onclick="openLightbox(5)">
+    <div class="card-img-wrap" style="background:#fff;">
+      <img src="assets/fea/3D_GEOMETRY_AND_BC.png" alt="3D Geometry" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num p2">FIG. 06</div>
+      <div class="card-title">3D Solid Geometry and Boundary Conditions</div>
+      <div class="card-desc">Full 3D solid model. A (inner edge): Y = −3.72 mm displacement. B (outer top edge): X = 0, Z = 0. C (outer bottom edge): Y = 0. Lateral constraints at B suppress natural radial expansion — the root cause of the 3D stiffness overestimate.</div>
+    </div>
+  </div>
+
+  <!-- 2D mesh -->
+  <div class="card" onclick="openLightbox(6)">
+    <div class="card-img-wrap">
+      <img src="assets/fea/mesh_2d_pic.png" alt="2D Axisymmetric Mesh" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num p2">FIG. 07</div>
+      <div class="card-title">2D Axisymmetric Mesh · Belleville Spring Cross-Section</div>
+      <div class="card-desc">Structured quad mesh of the 2D axisymmetric cross-section. Refined towards edges A and B to capture stress concentrations accurately. Grid independence achieved at ~200 elements.</div>
+    </div>
+  </div>
+
+  <!-- 3D mesh -->
+  <div class="card card-wide" onclick="openLightbox(7)">
+    <div class="card-img-wrap">
+      <img src="assets/fea/mesh_3d_pic.png" alt="3D Solid Mesh" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num p2">FIG. 08</div>
+      <div class="card-title">3D Solid Mesh · Full and Sectioned Views</div>
+      <div class="card-desc">High-density hex-dominant mesh on the full 3D solid (left) and a 45° sector cut-away revealing internal element structure (right). Grid independence achieved at ~50,000 elements. Circumferential mesh density drives the 3D model's computational cost relative to the 2D equivalent.</div>
+    </div>
+  </div>
+
+  <!-- GIS -->
+  <div class="card card-wide" onclick="openLightbox(8)">
+    <div class="card-img-wrap" style="background:#fff;">
+      <img src="assets/fea/gis_plot.png" alt="Grid Independence Study" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num p2">FIG. 09</div>
+      <div class="card-title">Grid Independence Study · 2D and 3D Models</div>
+      <div class="card-desc">Directional deformation vs element count for both models. 2D (red) converges at ~200 elements to −1.7995 mm. 3D (blue) converges at ~50,000 elements to −1.771 mm. Both plateaus confirm mesh-independent solutions before final analysis runs.</div>
+    </div>
+  </div>
+
+  <!-- 2D deformation -->
+  <div class="card" onclick="openLightbox(9)">
+    <div class="card-img-wrap">
+      <img src="assets/fea/deform_2d.png" alt="2D Directional Deformation" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num p2">FIG. 10</div>
+      <div class="card-title">2D Axisymmetric · Directional Deformation (Y-Axis)</div>
+      <div class="card-desc">Applied displacement δ = 3.72 mm. Deformation gradient from −3.72 mm (inner edge, blue) to +0.033 mm (outer edge, red), consistent with the spring's conical geometry flattening under compression.</div>
+    </div>
+  </div>
+
+  <!-- 3D deformation -->
+  <div class="card" onclick="openLightbox(10)">
+    <div class="card-img-wrap">
+      <img src="assets/fea/deform_3d.png" alt="3D Directional Deformation" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num p2">FIG. 11</div>
+      <div class="card-title">3D Solid · Directional Deformation (Y-Axis)</div>
+      <div class="card-desc">Same applied displacement δ = 3.72 mm. Rotationally symmetric deformation field — inner bore (blue, −3.72 mm) to outer rim (red, +0.020 mm). Lateral constraints at the outer edge introduce artificial circumferential stiffness not present in the 2D model.</div>
+    </div>
+  </div>
+
+  <!-- 2D stress -->
+  <div class="card" onclick="openLightbox(11)">
+    <div class="card-img-wrap">
+      <img src="assets/fea/stress_2d.png" alt="2D von Mises Stress" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num p2">FIG. 12</div>
+      <div class="card-title">2D Axisymmetric · von Mises Stress</div>
+      <div class="card-desc">Peak stress 2597.9 MPa concentrated at the inner edge (A), the expected location for a Belleville spring under compression. The stress gradient decays rapidly toward the outer radius, consistent with the Norton force-deflection model.</div>
+    </div>
+  </div>
+
+  <!-- 3D stress -->
+  <div class="card" onclick="openLightbox(12)">
+    <div class="card-img-wrap">
+      <img src="assets/fea/stress_3d.png" alt="3D von Mises Stress" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num p2">FIG. 13</div>
+      <div class="card-title">3D Solid · von Mises Stress</div>
+      <div class="card-desc">Peak stress 2419.3 MPa at the inner bore edge, showing the same radial decay pattern as the 2D model. The 3D model captures the full circumferential stress state and shows the stress ring clearly around the inner edge.</div>
+    </div>
+  </div>
+
+  <!-- Spring constant comparison - featured -->
+  <div class="card card-wide" onclick="openLightbox(13)">
+    <div class="card-img-wrap" style="background:#fff;">
+      <img src="assets/fea/p2_comparison.png" alt="Spring Constant Comparison" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num p2">FIG. 14</div>
+      <div class="card-title">Reaction Force and Spring Constant · Method Comparison</div>
+      <div class="card-desc">Left: reaction forces at δ = 3.72 mm — manufacturer (68,204 N), analytical (68,190 N, 0.86% error), 2D FEA (66,563 N, 2.42% error), 3D FEA (78,760 N, 15.13% error). Right: spring constant k — analytical 12,956 N/mm, 2D 12,291 N/mm, 3D 20,580 N/mm (+58.7%). The 3D overestimate is attributed to over-constrained lateral boundary conditions at the outer edge suppressing radial expansion.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxOutside(event)">
+  <div class="lb-inner">
+    <button class="lb-close" onclick="closeLightbox()">✕</button>
+    <div class="lb-img-wrap">
+      <img id="lb-img" src="" alt="">
+    </div>
+    <div class="lb-caption">
+      <div class="lb-caption-title" id="lb-title"></div>
+      <div class="lb-caption-desc" id="lb-desc"></div>
+    </div>
+    <div class="lb-nav">
+      <button class="lb-btn" onclick="prevImage()">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Prev
+      </button>
+      <span class="lb-counter" id="lb-counter"></span>
+      <button class="lb-btn" onclick="nextImage()">
+        Next
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="/#projects">← Back to Portfolio</a> &nbsp;·&nbsp; Walid Abou Zikry · MEng Mechanical Engineering · University of Sussex &nbsp;·&nbsp; <a href="https://github.com/wabouz076/P4FEA" target="_blank" rel="noopener">View Repository ↗</a>
+</footer>
+
+<script>
+  const items = [
+    { src: "assets/fea/p1_TRUSS_BC.png", title: "Planar Truss · Geometry and BCs", desc: "4-node truss with fixed supports at A and B, 20 kN load at node 4. 8 DOF solved via MATLAB direct stiffness method." },
+    { src: "assets/fea/truss_deformation.png", title: "LINK180 Truss · Total Deformation", desc: "Max deformation 27.398 mm. All 8 nodal displacements matched with max error 0.006% vs MATLAB." },
+    { src: "assets/fea/beam_deformation.png", title: "BEAM188 Truss · Total Deformation", desc: "Max deformation 27.402 mm. Bending stiffness contributions raise error to 0.115% vs MATLAB — still within acceptable tolerance." },
+    { src: "assets/fea/p1_comparison.png", title: "Nodal Displacement Comparison · MATLAB vs FEA Truss vs FEA Beam", desc: "All 8 DOF across three methods. Close agreement throughout; max deviation 0.115% at x₇ for BEAM188." },
+    { src: "assets/fea/2D_GEOMETRY_AND_BC.png", title: "2D Axisymmetric Geometry and BCs", desc: "Cross-section: inner radius 41 mm, outer radius 100 mm, thickness 6.70 mm. Inner edge displaced Y = −3.72 mm." },
+    { src: "assets/fea/3D_GEOMETRY_AND_BC.png", title: "3D Solid Geometry and BCs", desc: "Full solid model. Lateral constraints at outer edge B suppress radial expansion — root cause of 3D stiffness overestimate." },
+    { src: "assets/fea/mesh_2d_pic.png", title: "2D Axisymmetric Mesh", desc: "Structured quad mesh. Grid independent at ~200 elements." },
+    { src: "assets/fea/mesh_3d_pic.png", title: "3D Solid Mesh · Full and Sectioned", desc: "Hex-dominant mesh. Grid independent at ~50,000 elements. Cut-away reveals internal element structure." },
+    { src: "assets/fea/gis_plot.png", title: "Grid Independence Study · 2D and 3D", desc: "2D converges at ~200 elements (−1.7995 mm). 3D converges at ~50,000 elements (−1.771 mm)." },
+    { src: "assets/fea/deform_2d.png", title: "2D Axisymmetric · Directional Deformation (Y)", desc: "δ = 3.72 mm applied. Inner edge −3.72 mm (blue) to outer +0.033 mm (red). Physically consistent with conical geometry flattening." },
+    { src: "assets/fea/deform_3d.png", title: "3D Solid · Directional Deformation (Y)", desc: "Same δ = 3.72 mm. Rotationally symmetric field. Inner bore −3.72 mm, outer rim +0.020 mm." },
+    { src: "assets/fea/stress_2d.png", title: "2D Axisymmetric · von Mises Stress", desc: "Peak 2597.9 MPa at inner edge A. Rapid decay toward outer radius, consistent with Norton force-deflection model." },
+    { src: "assets/fea/stress_3d.png", title: "3D Solid · von Mises Stress", desc: "Peak 2419.3 MPa at inner bore. Full circumferential stress ring visible around inner edge." },
+    { src: "assets/fea/p2_comparison.png", title: "Reaction Force and Spring Constant Comparison", desc: "k: analytical 12,956 N/mm, 2D 12,291 N/mm (2.42% error), 3D 20,580 N/mm (+58.7% overestimate). 3D error traced to over-constrained outer edge BCs." }
+  ];
+
+  let current = 0;
+
+  function openLightbox(idx) {
+    current = idx;
+    updateLightbox();
+    document.getElementById("lightbox").classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeLightbox() {
+    document.getElementById("lightbox").classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  function closeLightboxOutside(e) { if (e.target.id === "lightbox") closeLightbox(); }
+
+  function updateLightbox() {
+    const item = items[current];
+    document.getElementById("lb-img").src = item.src;
+    document.getElementById("lb-img").alt = item.title;
+    document.getElementById("lb-title").textContent = item.title;
+    document.getElementById("lb-desc").textContent = item.desc;
+    document.getElementById("lb-counter").textContent = (current + 1) + " / " + items.length;
+  }
+
+  function nextImage() { current = (current + 1) % items.length; updateLightbox(); }
+  function prevImage() { current = (current - 1 + items.length) % items.length; updateLightbox(); }
+
+  document.addEventListener("keydown", e => {
+    if (!document.getElementById("lightbox").classList.contains("open")) return;
+    if (e.key === "ArrowRight") nextImage();
+    if (e.key === "ArrowLeft") prevImage();
+    if (e.key === "Escape") closeLightbox();
+  });
+</script>
+
+</body>
+</html>
