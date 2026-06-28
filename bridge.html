@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Structural Bridge · Timber Construction · Walid Abou Zikry</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0b0b0b;
+    --surface:   #141414;
+    --border:    #222;
+    --accent:    #4f8ef7;
+    --accent-dim:#1e3a6e;
+    --accent2:   #e07b3f;
+    --text:      #e8e8e8;
+    --muted:     #666;
+    --tag-bg:    #1a1a1a;
+    --tag-text:  #999;
+    --radius:    6px;
+    --font:      -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    --mono:      "SF Mono", "Fira Code", "Consolas", monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(11,11,11,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand { font-size: 13px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); text-decoration: none; }
+
+  .nav-back {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.15s;
+  }
+  .nav-back:hover { color: var(--text); }
+  .nav-back svg { width: 14px; height: 14px; }
+
+  /* HEADER */
+  header { max-width: 960px; margin: 0 auto; padding: 4rem 2rem 2.5rem; }
+
+  .eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700;
+    line-height: 1.2; letter-spacing: -0.02em; color: #fff; margin-bottom: 1rem;
+  }
+
+  .subtitle { color: var(--muted); font-size: 14px; max-width: 580px; line-height: 1.7; margin-bottom: 1.5rem; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.03em;
+    color: var(--tag-text); background: var(--tag-bg);
+    border: 1px solid var(--border); border-radius: 3px; padding: 3px 8px;
+  }
+
+  /* STATS */
+  .stats-bar {
+    max-width: 960px; margin: 0 auto 3rem; padding: 0 2rem;
+    display: flex; gap: 0; border: 1px solid var(--border);
+    border-radius: var(--radius); background: var(--surface); overflow: hidden;
+  }
+
+  .stat { flex: 1; padding: 1.1rem 1.4rem; border-right: 1px solid var(--border); }
+  .stat:last-child { border-right: none; }
+
+  .stat-val {
+    font-family: var(--mono); font-size: 1.05rem; font-weight: 600;
+    color: var(--accent); letter-spacing: -0.01em; display: block;
+  }
+
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
+  /* PART DIVIDER */
+  .part-heading {
+    max-width: 960px; margin: 0 auto 1.5rem; padding: 0 2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .part-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; white-space: nowrap;
+  }
+
+  .part-label.part-1 { color: var(--accent); }
+  .part-label.part-2 { color: var(--accent2); }
+
+  .part-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* GALLERY */
+  .gallery {
+    max-width: 960px; margin: 0 auto; padding: 0 2rem 3rem;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5px;
+  }
+
+  .card-wide { grid-column: 1 / -1; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s; position: relative;
+  }
+
+  .card:hover { border-color: var(--accent-dim); transform: translateY(-2px); }
+  .card:hover .card-overlay { opacity: 1; }
+
+  .card-img-wrap {
+    width: 100%; aspect-ratio: 16 / 9; overflow: hidden;
+    background: #f8f8f8; display: flex; align-items: center; justify-content: center;
+  }
+
+  .card-wide .card-img-wrap { aspect-ratio: 21 / 7; }
+
+  .card img {
+    width: 100%; height: 100%; object-fit: contain;
+    display: block; transition: transform 0.3s; padding: 4px;
+  }
+
+  .card-img-wrap.photo img { object-fit: cover; padding: 0; }
+
+  .card:hover img { transform: scale(1.02); }
+
+  .card-overlay {
+    position: absolute; inset: 0;
+    background: rgba(79,142,247,0.07);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.2s;
+  }
+
+  .zoom-icon {
+    width: 36px; height: 36px; background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.2); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .zoom-icon svg { width: 16px; height: 16px; color: #fff; }
+
+  .card-meta { padding: 0.9rem 1.1rem 1rem; border-top: 1px solid var(--border); }
+
+  .card-num { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 3px; }
+  .card-num.p2 { color: var(--accent2); }
+
+  .card-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+  .card-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
+  /* LIGHTBOX */
+  .lightbox {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.93); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center; padding: 2rem;
+  }
+  .lightbox.open { display: flex; }
+
+  .lb-inner {
+    position: relative; max-width: 1100px; width: 100%;
+    display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+  }
+
+  .lb-img-wrap {
+    width: 100%; background: #f5f5f5; border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    display: flex; align-items: center; justify-content: center; max-height: 75vh;
+  }
+
+  .lb-img-wrap.photo-lb { background: #000; }
+
+  .lb-img-wrap img { max-width: 100%; max-height: 75vh; object-fit: contain; display: block; }
+
+  .lb-caption { text-align: center; max-width: 640px; }
+  .lb-caption-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .lb-caption-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  .lb-nav { display: flex; gap: 0.5rem; align-items: center; }
+
+  .lb-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); color: var(--text); padding: 8px 16px;
+    font-size: 13px; cursor: pointer; transition: border-color 0.15s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .lb-btn:hover { border-color: var(--accent); }
+
+  .lb-close {
+    position: absolute; top: -3rem; right: 0; background: none; border: none;
+    color: var(--muted); font-size: 24px; cursor: pointer; line-height: 1; transition: color 0.15s;
+  }
+  .lb-close:hover { color: var(--text); }
+
+  .lb-counter { font-family: var(--mono); font-size: 12px; color: var(--muted); padding: 8px 14px; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-size: 12px; color: var(--muted); }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .stats-bar { flex-direction: column; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat:last-child { border-bottom: none; }
+    .gallery { grid-template-columns: 1fr; }
+    .card-wide .card-img-wrap { aspect-ratio: 16 / 9; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Walid.AbouZikry</a>
+  <a href="/#projects" class="nav-back">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+    </svg>
+    Back to Portfolio
+  </a>
+</nav>
+
+<header>
+  <div class="eyebrow">Structural Analysis · Fabrication · Group Project</div>
+  <h1>Structural Bridge ·<br>Timber Construction</h1>
+  <p class="subtitle">
+    Group design-and-build project to maximise load-to-weight ratio within fixed material and geometry constraints. Member forces determined analytically by method of joints before fabrication, then experimentally validated by incremental load testing to failure.
+  </p>
+  <div class="tags">
+    <span class="tag">Method of Joints</span>
+    <span class="tag">Truss Analysis</span>
+    <span class="tag">Timber Construction</span>
+    <span class="tag">Load-to-Weight Ratio</span>
+    <span class="tag">Experimental Validation</span>
+    <span class="tag">Structural Fabrication</span>
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <span class="stat-val">420 mm</span>
+    <span class="stat-label">Bridge Span</span>
+  </div>
+  <div class="stat">
+    <span class="stat-val">147.15 N</span>
+    <span class="stat-label">Applied Load (15 kg)</span>
+  </div>
+  <div class="stat">
+    <span class="stat-val">193.2 N</span>
+    <span class="stat-label">Peak Compression</span>
+  </div>
+  <div class="stat">
+    <span class="stat-val">128.8 N</span>
+    <span class="stat-label">Peak Tension</span>
+  </div>
+</div>
+
+<!-- PART 1 HEADING -->
+<div class="part-heading">
+  <span class="part-label part-1">Part 1 · Design &amp; Analysis</span>
+</div>
+
+<div class="gallery">
+
+  <!-- Sketch - featured -->
+  <div class="card card-wide" onclick="openLightbox(0)">
+    <div class="card-img-wrap" style="background:#fff;">
+      <img src="assets/bridge/sketch_of_final_design_.png" alt="Final Design Sketch" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num">FIG. 01</div>
+      <div class="card-title">Final Design Sketch · Side, Bottom and Top Views</div>
+      <div class="card-desc">Dimensioned sketch of the finalised timber truss. Span 420 mm, width 280 mm, height 80 mm. Panel spacing 70 mm. The triangulated geometry was selected to distribute the 147.15 N central load efficiently across compression and tension members.</div>
+    </div>
+  </div>
+
+  <!-- Hand calcs 1 -->
+  <div class="card" onclick="openLightbox(1)">
+    <div class="card-img-wrap" style="background:#fff;">
+      <img src="assets/bridge/hand_calculations.png" alt="Hand Calculations Page 1" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num">FIG. 02</div>
+      <div class="card-title">Hand Calculations · Reactions and Method of Joints</div>
+      <div class="card-desc">Support reactions determined from symmetry: A = B = 73.6 N. Joint equilibrium equations resolved at node A to give F_AC = -97.8 N (compression) and F_AD = 64.4 N (tension). Diagonal angle θ = tan⁻¹(80/70) = 48.8°.</div>
+    </div>
+  </div>
+
+  <!-- Hand calcs 2 -->
+  <div class="card" onclick="openLightbox(2)">
+    <div class="card-img-wrap" style="background:#fff;">
+      <img src="assets/bridge/hand_calculations_2.png" alt="Hand Calculations Page 2" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num">FIG. 03</div>
+      <div class="card-title">Hand Calculations · Upper Chord and Internal Forces</div>
+      <div class="card-desc">Moments taken from nodes y and G to resolve upper chord forces. F_QG = F_QE = -193.2 N (compression), F_yG = F_yE = 97.8 N (tension), F_yH = F_yI = 128.8 N (tension). Symmetry used to reduce the number of independent equations.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- PART 2 HEADING -->
+<div class="part-heading">
+  <span class="part-label part-2">Part 2 · Fabrication</span>
+</div>
+
+<div class="gallery">
+
+  <!-- Photo 1 -->
+  <div class="card card-wide" onclick="openLightbox(3)">
+    <div class="card-img-wrap photo" style="background:#111;">
+      <img src="assets/bridge/IMG_4091.jpeg" alt="Bridge during construction" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num p2">FIG. 04</div>
+      <div class="card-title">Bridge During Construction</div>
+      <div class="card-desc">Early assembly stage showing the truss frame taking shape. Members were cut and bonded progressively, with the diagonal bracing pattern following the method-of-joints analysis to maintain structural consistency between the analytical model and the physical build.</div>
+    </div>
+  </div>
+
+  <!-- Photo 2 -->
+  <div class="card" onclick="openLightbox(4)">
+    <div class="card-img-wrap photo" style="background:#111;">
+      <img src="assets/bridge/IMG_4092.jpeg" alt="Bridge overhead view" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num p2">FIG. 05</div>
+      <div class="card-title">Overhead View · Panel Layout</div>
+      <div class="card-desc">Top-down view showing the internal cross-bracing and card deck spanning the width of the bridge. The panel geometry corresponds to the 70 mm spacing defined in the design sketch.</div>
+    </div>
+  </div>
+
+  <!-- Photo 3 -->
+  <div class="card" onclick="openLightbox(5)">
+    <div class="card-img-wrap photo" style="background:#111;">
+      <img src="assets/bridge/IMG_4093.jpeg" alt="Bridge completed front view" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num p2">FIG. 06</div>
+      <div class="card-title">Completed Bridge · Side Elevation</div>
+      <div class="card-desc">Finished bridge showing the full 420 mm span with the triangulated side truss clearly visible. End diagonals carry the highest compressive loads, consistent with the F_QG = -193.2 N predicted analytically.</div>
+    </div>
+  </div>
+
+  <!-- Photo 4 -->
+  <div class="card" onclick="openLightbox(6)">
+    <div class="card-img-wrap photo" style="background:#111;">
+      <img src="assets/bridge/IMG_4094.jpeg" alt="Bridge completed side view" loading="lazy">
+    </div>
+    <div class="card-overlay"><div class="zoom-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4"/></svg></div></div>
+    <div class="card-meta">
+      <div class="card-num p2">FIG. 07</div>
+      <div class="card-title">Completed Bridge · Three-Quarter View</div>
+      <div class="card-desc">Three-quarter view showing the depth of the truss and the deck surface. The bridge was tested to failure under incremental loading, with experimental results compared against the method-of-joints predictions.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxOutside(event)">
+  <div class="lb-inner">
+    <button class="lb-close" onclick="closeLightbox()">✕</button>
+    <div class="lb-img-wrap" id="lb-img-wrap">
+      <img id="lb-img" src="" alt="">
+    </div>
+    <div class="lb-caption">
+      <div class="lb-caption-title" id="lb-title"></div>
+      <div class="lb-caption-desc" id="lb-desc"></div>
+    </div>
+    <div class="lb-nav">
+      <button class="lb-btn" onclick="prevImage()">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Prev
+      </button>
+      <span class="lb-counter" id="lb-counter"></span>
+      <button class="lb-btn" onclick="nextImage()">
+        Next
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="/#projects">← Back to Portfolio</a> &nbsp;·&nbsp; Walid Abou Zikry · MEng Mechanical Engineering · University of Sussex
+</footer>
+
+<script>
+  const items = [
+    { src: "assets/bridge/sketch_of_final_design_.png", title: "Final Design Sketch · Side, Bottom and Top Views", desc: "Span 420 mm, width 280 mm, height 80 mm. Panel spacing 70 mm. Triangulated geometry selected for load-to-weight efficiency.", photo: false },
+    { src: "assets/bridge/hand_calculations.png", title: "Hand Calculations · Reactions and Method of Joints", desc: "A = B = 73.6 N from symmetry. F_AC = -97.8 N (compression), F_AD = 64.4 N (tension). Diagonal angle θ = 48.8°.", photo: false },
+    { src: "assets/bridge/hand_calculations_2.png", title: "Hand Calculations · Upper Chord and Internal Forces", desc: "F_QG = F_QE = -193.2 N (compression), F_yG = F_yE = 97.8 N (tension), F_yH = F_yI = 128.8 N (tension).", photo: false },
+    { src: "assets/bridge/IMG_4091.jpeg", title: "Bridge During Construction", desc: "Early assembly stage. Diagonal bracing placed per the analytical member force pattern.", photo: true },
+    { src: "assets/bridge/IMG_4092.jpeg", title: "Overhead View · Panel Layout", desc: "Internal cross-bracing and card deck. Panel spacing corresponds to the 70 mm design dimension.", photo: true },
+    { src: "assets/bridge/IMG_4093.jpeg", title: "Completed Bridge · Side Elevation", desc: "Full 420 mm span. End diagonals carry peak compression of 193.2 N as predicted by method of joints.", photo: true },
+    { src: "assets/bridge/IMG_4094.jpeg", title: "Completed Bridge · Three-Quarter View", desc: "Truss depth and deck surface visible. Tested to failure under incremental loading, validated against analytical predictions.", photo: true }
+  ];
+
+  let current = 0;
+
+  function openLightbox(idx) {
+    current = idx;
+    updateLightbox();
+    document.getElementById("lightbox").classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeLightbox() {
+    document.getElementById("lightbox").classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  function closeLightboxOutside(e) { if (e.target.id === "lightbox") closeLightbox(); }
+
+  function updateLightbox() {
+    const item = items[current];
+    document.getElementById("lb-img").src = item.src;
+    document.getElementById("lb-img").alt = item.title;
+    document.getElementById("lb-title").textContent = item.title;
+    document.getElementById("lb-desc").textContent = item.desc;
+    document.getElementById("lb-counter").textContent = (current + 1) + " / " + items.length;
+    const wrap = document.getElementById("lb-img-wrap");
+    wrap.classList.toggle("photo-lb", item.photo);
+  }
+
+  function nextImage() { current = (current + 1) % items.length; updateLightbox(); }
+  function prevImage() { current = (current - 1 + items.length) % items.length; updateLightbox(); }
+
+  document.addEventListener("keydown", e => {
+    if (!document.getElementById("lightbox").classList.contains("open")) return;
+    if (e.key === "ArrowRight") nextImage();
+    if (e.key === "ArrowLeft") prevImage();
+    if (e.key === "Escape") closeLightbox();
+  });
+</script>
+
+</body>
+</html>
